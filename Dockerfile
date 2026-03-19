@@ -33,5 +33,5 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 # Cambiar a usuario seguro
 USER spark
 
-# Ejecutar con spark-submit (clave para Spark)
+# Ejecutar con spark-submit
 CMD ["spark-submit", "src/main.py"]
