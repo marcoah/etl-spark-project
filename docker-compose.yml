@@ -1,14 +1,11 @@
-version: "3.9"
-
 services:
   spark-etl:
     build: .
     container_name: spark_etl
     volumes:
       - ./data:/opt/app/data
-    environment:
-      - RAW_PATH=/opt/app/data/raw/posts.json
-      - OUTPUT_PATH=/opt/app/data/processed/posts_parquet
+    env_file:
+      - .env
     command: spark-submit src/main.py
 
   jupyter:

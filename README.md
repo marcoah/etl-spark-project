@@ -57,11 +57,15 @@ Windows:
 ´´´
 powershell
 docker run -v "C:\ruta\completa\tu_proyecto\data:/opt/app/data" etl-spark
+´´´
 
 ### Sin Docker
 
+´´´
+!bash
 pip install -r requirements.txt
 python src/main.py
+´´´
 
 ## Opcion contenedor completo
 
@@ -75,6 +79,20 @@ Que hace esto:
 - Tu token: dev
 
 Notas: La imagen completa requiere 1.8GB de descarga.
+
+## Cómo ver el Parquet (en Jupyter)
+
+Dentro de Jupyter crea un notebook y ejecuta:
+
+´´´
+!bash
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.getOrCreate()
+
+df = spark.read.parquet("data/processed/posts_parquet")
+df.show()
+´´´
 
 ## Autor
 

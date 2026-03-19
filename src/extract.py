@@ -2,7 +2,7 @@ import requests
 import json
 import os
 
-RAW_PATH = "data/raw/posts.json"
+RAW_PATH = os.getenv("RAW_PATH", "data/raw/posts.json")
 
 def extract():
     url = "https://jsonplaceholder.typicode.com/posts"
