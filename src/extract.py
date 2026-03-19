@@ -14,7 +14,7 @@ def extract():
     with open(RAW_PATH, "w") as f:
         json.dump(data, f)
 
-    print("Data extracted successfully")
+    print("Data extraida exitosamente.")
 
 if __name__ == "__main__":
     extract()

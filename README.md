@@ -15,6 +15,7 @@ Construir un pipeline que:
 
 ## Estructura
 
+´´´
 etl-spark-project/
 │
 ├── data/
@@ -30,6 +31,7 @@ etl-spark-project/
 ├── requirements.txt
 ├── Dockerfile
 └── README.md
+´´´
 
 ## Origen datos
 
@@ -37,16 +39,42 @@ API: https://jsonplaceholder.typicode.com/posts
 
 ## Cómo correrlo
 
+### Con Docker
+
 Si estas en Windows recuerda Levantar Docker primero (Docker Desktop)
 ´´´
 !bash
 docker build -t etl-spark .
 docker run etl-spark
 ´´´
-o sin Docker:
+
+#### Montar contenedor
+
+linux: docker run -v $(pwd)/data:/opt/app/data etl-spark
+Salida en: /opt/app/data
+
+Windows:
+´´´
+powershell
+docker run -v "C:\ruta\completa\tu_proyecto\data:/opt/app/data" etl-spark
+
+### Sin Docker
 
 pip install -r requirements.txt
 python src/main.py
+
+## Opcion contenedor completo
+
+docker-compose up --build
+
+Que hace esto:
+
+- Corre el ETL
+- Guarda Parquet en ./data
+- Levanta Jupyter en: http://localhost:8888
+- Tu token: dev
+
+Notas: La imagen completa requiere 1.8GB de descarga.
 
 ## Autor
 

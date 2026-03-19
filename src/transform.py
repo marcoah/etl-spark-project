@@ -13,7 +13,7 @@ def transform():
     # Limpieza básica
     df_clean = df.dropna()
 
-    # Feature engineering simple
+    # Transformacion simple
     df_transformed = df_clean.withColumn("title_length", length(col("title")))
 
     return df_transformed

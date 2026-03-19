@@ -1,5 +1,8 @@
-# Imagen base con Java 11 ya instalado
-FROM eclipse-temurin:17-jdk
+# Imagen oficial de Spark (ya trae Java + Spark configurado)
+FROM spark:3.5.1
+
+# Cambiar a root para instalar paquetes
+USER root
 
 # Instalar Python y pip
 RUN apt-get update && apt-get install -y \
@@ -8,14 +11,27 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Crear directorio de trabajo
-WORKDIR /app
+# Crear symlink (algunas imágenes usan python en vez de python3)
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
-# Copiar tu código
+# Definir variables útiles
+ENV PYSPARK_PYTHON=python3
+
+# Crear directorio de trabajo
+WORKDIR /opt/app
+
+# Copiar código
 COPY . .
 
-# Instalar dependencias de Python (con override de PEP 668)
-RUN pip install --no-cache-dir --break-system-packages -r requirements.txt
+# Crear carpeta de datos y dar permisos
+RUN mkdir -p data/raw data/processed && \
+    chown -R spark:spark /opt/app
 
-# Ejecutar el pipeline
-CMD ["python3", "src/main.py"]
+# Instalar dependencias Python
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Cambiar a usuario seguro
+USER spark
+
+# Ejecutar con spark-submit (clave para Spark)
+CMD ["spark-submit", "src/main.py"]
